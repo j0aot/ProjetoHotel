@@ -404,7 +404,7 @@ public class Main {
             if (r.getIdQuarto() == idQuarto && r.isAtiva() && r.getId() != idReservaIgnorar) {
                 // Se as datas se sobrepõem
                 if (!inicio.isAfter(r.getDataFim()) && !fim.isBefore(r.getDataInicio())) {
-                    return false; // Há conflito
+                    return false; 
                 }
             }
         }
