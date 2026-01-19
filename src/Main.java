@@ -212,9 +212,11 @@ public class Main {
         pausar();
     }
 
-    // --- LÓGICA DE NEGÓCIO ---
+    // CRIAR NOVO HÓSPEDE
 
     private static void criarHospede() {
+        // verifica se o array está cheio
+
         if (qtdHospedes >= MAX_HOSPEDES) {
             System.out.println("Erro: Limite de hóspedes atingido.");
             return;
@@ -225,12 +227,14 @@ public class Main {
         System.out.print("Documento: ");
         String doc = scanner.nextLine();
 
+        // os campos nao podem estar vazios
+
         if (nome.isEmpty() || doc.isEmpty()) {
             System.out.println("Dados inválidos.");
             return;
         }
 
-        // Verificar duplicado
+        // percorre todos os hospedes e verifica duplicados
         for (int i = 0; i < qtdHospedes; i++) {
             if (hospedes[i].getDocumento().equals(doc)) {
                 System.out.println("Erro: Documento já existe.");
