@@ -1,6 +1,5 @@
 import java.io.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Main {
@@ -44,6 +43,7 @@ public class Main {
         int opcao = -1; // Inicializa com -1 para entrar no loop
         while (opcao != 0) {
             limparEcra();
+            // limpa a consola para melhorar a legibilidade
 
             // exibe o menu principal
 
@@ -54,13 +54,12 @@ public class Main {
             System.out.println("0. Sair e Guardar");
             System.out.print("Opção: ");
 
-            // Tenta ler a opção do utilizador
-
+            // le a opção escolhida e tenta converte-la para um numero inteiro
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 opcao = -1;
-            } // se não for numero válido, marca como invalido
+            } // se não for numero válido, marca como invalido usando o -1
 
             // processa a escolha do utilizador
 
@@ -120,11 +119,18 @@ public class Main {
                 break;
             case "3":
                 // Lista os quartos ocupados hoje + mostra qual reserva os ocupa
-
+                // loop para percorrer os quartos
                 for (int i = 0; i < qtdQuartos; i++) {
+                    // verifica se o quarto está ocupado hoje, pega o id do quarto atual, localdate
+                    // serve para verificar a data de hoje
                     if (estaOcupadoData(quartos[i].getId(), LocalDate.now())) {
                         System.out.println(quartos[i]);
                         // procura a(s) reserva(s) ativa(s) "hoje"
+                        // reservas[r].getIdQuarto() == quartos[i].getId() verifica se a reserva é do
+                        // quarto atual
+                        // reservas[r].isAtiva() verifica se a reserva está ativa
+                        // LocalDate.now().isBefore(reservas[r].getDataInicio()) verifica se a data de
+                        // hoje é antes da data de início da reserva
 
                         for (int r = 0; r < qtdReservas; r++) {
                             if (reservas[r].getIdQuarto() == quartos[i].getId() && reservas[r].isAtiva() &&
@@ -386,6 +392,7 @@ public class Main {
         }
     }
 
+    // aqui nao remove a reserva do array nem do csv, apenas marca como inativa
     private static void cancelarReserva() {
         System.out.print("ID da Reserva: ");
         int id = lerInteiro();
@@ -408,7 +415,7 @@ public class Main {
             if (r.getIdQuarto() == idQuarto && r.isAtiva() && r.getId() != idReservaIgnorar) {
                 // Se as datas se sobrepõem
                 if (!inicio.isAfter(r.getDataFim()) && !fim.isBefore(r.getDataInicio())) {
-                    return false; 
+                    return false;
                 }
             }
         }
@@ -419,6 +426,7 @@ public class Main {
         return !verificarDisponibilidadeQuarto(idQuarto, data, data, -1);
     }
 
+    // o -1 serve para ignorar o filtro
     private static void listarReservasPorFiltro(int idQuarto, int idHospede) {
         for (int i = 0; i < qtdReservas; i++) {
             boolean matchQuarto = (idQuarto == -1) || (reservas[i].getIdQuarto() == idQuarto);
@@ -443,6 +451,7 @@ public class Main {
         scanner.nextLine();
     }
 
+    // imprime 50 linhas em branco para limpar a consola
     private static void limparEcra() {
         for (int i = 0; i < 50; i++)
             System.out.println();
@@ -453,6 +462,7 @@ public class Main {
     private static void carregarDados() {
         try {
             // Quartos
+            // procura os csv na pasta do projeto e carrega os dados para os arrays
             File fq = new File("quartos.csv");
             if (fq.exists()) {
                 Scanner sc = new Scanner(fq);
