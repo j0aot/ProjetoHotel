@@ -463,6 +463,7 @@ public class Main {
         try {
             // Quartos
             // procura os csv na pasta do projeto e carrega os dados para os arrays
+            // usa a java.io e java.util.Scanner para ler os ficheiros
             File fq = new File("quartos.csv");
             if (fq.exists()) {
                 Scanner sc = new Scanner(fq);
