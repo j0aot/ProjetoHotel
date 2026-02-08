@@ -279,6 +279,8 @@ public class Main {
         System.out.println("Hóspede atualizado.");
     }
 
+//criar reserva
+
     private static void criarReserva() {
         if (qtdReservas >= MAX_RESERVAS) {
             System.out.println("Limite de reservas atingido.");
